@@ -10,9 +10,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.example.dino.zd4.R;
 import com.example.dino.zd4.data.FakeDatabase;
@@ -116,7 +118,7 @@ public class TasksView extends AppCompatActivity {
             private TextView taskTitle;
             private TextView taskDescription;
             private TextView taskDueDate;
-            private ViewGroup container;
+            private ToggleButton taskStatus;
 
             public CustomViewHolder(View itemView) {
                 super(itemView);
@@ -125,16 +127,29 @@ public class TasksView extends AppCompatActivity {
                 this.taskTitle = itemView.findViewById(R.id.textview_task_title);
                 this.taskDescription = itemView.findViewById(R.id.textview_task_description);
                 this.taskDueDate = itemView.findViewById(R.id.textview_task_duedate);
-                this.container = itemView.findViewById(R.id.root_rl_task);
+                this.taskStatus = itemView.findViewById(R.id.togglebutton_task_state);
 
-                container.setOnClickListener(this);
+                taskPriority.setOnClickListener(this);
+                taskStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                        if(b)
+                            fakeDatabase.get(getAdapterPosition()).setCompleted(true);
+                        else
+                            fakeDatabase.get(getAdapterPosition()).setCompleted(false);
+                    }
+                });
 
             }
 
 
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(),"hi",Toast.LENGTH_SHORT).show();
+                ImageView imv= (ImageView) view;
+                if(Integer.parseInt(imv.getDrawable().toString()) == R.color.taskpriority_high)
+                Toast.makeText(getApplication(),"hi",Toast.LENGTH_SHORT).show();
+
+
             }
         }
     }

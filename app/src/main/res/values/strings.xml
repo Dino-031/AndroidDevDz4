@@ -2,6 +2,9 @@
     <string name="app_name">zd4</string>
     <string name="newTask_title_hint">Enter title</string>
     <string name="newTask_description_hint">Enter description</string>
+    <string name="textview_select_date_text">Select Date</string>
+    <string name="togglebutton_on_state_text">Finished</string>
+    <string name="togglebutton_off_state_text">Not finished</string>
 
     <string-array name="priority_array">
         <item>LOW</item>

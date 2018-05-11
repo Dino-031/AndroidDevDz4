@@ -14,6 +14,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.dino.zd4.R;
@@ -51,6 +52,9 @@ public class NewTask extends AppCompatActivity  {
     @BindView(R.id.button_newtask_pickdate)
     Button btn_newtask_pickdate;
 
+    @BindView(R.id.textview_newtask_duedate)
+    TextView tv_newtask_duedate;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +66,7 @@ public class NewTask extends AppCompatActivity  {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 gc_dueDate = new GregorianCalendar(year,month,day);
+                tv_newtask_duedate.setText(day + "/" +month + "/" + year);
             }
         };
     }
