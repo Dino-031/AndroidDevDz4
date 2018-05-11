@@ -20,6 +20,7 @@ import com.example.dino.zd4.R;
 import com.example.dino.zd4.data.FakeDatabase;
 import com.example.dino.zd4.model.Task;
 import com.example.dino.zd4.model.TaskGenerator;
+import com.example.dino.zd4.model.TaskPriority;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -101,7 +102,6 @@ public class TasksView extends AppCompatActivity {
             holder.taskTitle.setText(currentTask.getTitle());
             holder.taskDescription.setText(currentTask.getDescription());
             holder.taskPriority.setBackgroundResource(currentTask.getPriority());
-
             GregorianCalendar gc = currentTask.getDueDate();
 
             holder.taskDueDate.setText("Due date: " + gc.get(Calendar.DAY_OF_MONTH) + "/" + gc.get(Calendar.MONTH) + "/" +gc.get(YEAR) );
@@ -145,11 +145,22 @@ public class TasksView extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                ImageView imv= (ImageView) view;
-                if(Integer.parseInt(imv.getDrawable().toString()) == R.color.taskpriority_high)
-                Toast.makeText(getApplication(),"hi",Toast.LENGTH_SHORT).show();
-
-
+                if(view.getId() == R.id.imageview_task_priority)
+                {
+                    switch(fakeDatabase.get(getAdapterPosition()).getPriority())
+                    {
+                        case R.color.taskpriority_low:
+                            fakeDatabase.get(getAdapterPosition()).setPriority(TaskPriority.MEDIUM);
+                            break;
+                        case R.color.taskpriority_medium:
+                            fakeDatabase.get(getAdapterPosition()).setPriority(TaskPriority.HIGH);
+                            break;
+                        case R.color.taskpriority_high:
+                            fakeDatabase.get(getAdapterPosition()).setPriority(TaskPriority.LOW);
+                            break;
+                    }
+                    notifyDataSetChanged();
+                }
             }
         }
     }
