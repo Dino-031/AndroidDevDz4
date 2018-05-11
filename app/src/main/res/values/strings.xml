@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">zd4</string>
+    <string name="newTask_title_hint">Enter title</string>
+    <string name="newTask_description_hint">Enter description</string>
+
+    <string-array name="priority_array">
+        <item>LOW</item>
+        <item>MEDIUM</item>
+        <item>HIGH</item>
+    </string-array>
+
+</resources>
