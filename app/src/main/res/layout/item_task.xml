@@ -27,5 +27,11 @@
         android:layout_toStartOf="@id/imageview_task_priority"
         android:layout_below="@id/textview_task_title"
         android:textSize="@dimen/textSize_normal"/>
+    <TextView
+        android:id="@+id/textview_task_duedate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textview_task_description"
+        android:textSize="@dimen/textSize_normal"/>
 
 </RelativeLayout>

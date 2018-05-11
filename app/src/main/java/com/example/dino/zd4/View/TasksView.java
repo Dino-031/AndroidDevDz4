@@ -19,11 +19,15 @@ import com.example.dino.zd4.data.FakeDatabase;
 import com.example.dino.zd4.model.Task;
 import com.example.dino.zd4.model.TaskGenerator;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static java.util.Calendar.YEAR;
 
 public class TasksView extends AppCompatActivity {
 
@@ -96,7 +100,9 @@ public class TasksView extends AppCompatActivity {
             holder.taskDescription.setText(currentTask.getDescription());
             holder.taskPriority.setBackgroundResource(currentTask.getPriority());
 
+            GregorianCalendar gc = currentTask.getDueDate();
 
+            holder.taskDueDate.setText("Due date: " + gc.get(Calendar.DAY_OF_MONTH) + "/" + gc.get(Calendar.MONTH) + "/" +gc.get(YEAR) );
         }
 
         @Override
@@ -109,6 +115,7 @@ public class TasksView extends AppCompatActivity {
             private ImageView taskPriority;
             private TextView taskTitle;
             private TextView taskDescription;
+            private TextView taskDueDate;
             private ViewGroup container;
 
             public CustomViewHolder(View itemView) {
@@ -117,6 +124,7 @@ public class TasksView extends AppCompatActivity {
                 this.taskPriority = itemView.findViewById(R.id.imageview_task_priority);
                 this.taskTitle = itemView.findViewById(R.id.textview_task_title);
                 this.taskDescription = itemView.findViewById(R.id.textview_task_description);
+                this.taskDueDate = itemView.findViewById(R.id.textview_task_duedate);
                 this.container = itemView.findViewById(R.id.root_rl_task);
 
                 container.setOnClickListener(this);

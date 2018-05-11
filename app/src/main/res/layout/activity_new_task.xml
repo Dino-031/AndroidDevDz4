@@ -21,13 +21,22 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/edittext_newtask_description"
         android:layout_centerHorizontal="true"/>
+    <Button
+        android:id="@+id/button_newtask_pickdate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pick due date"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/spinner_newtask_priority"/>
     <ImageButton
         android:id="@+id/imagebutton_newtask_savetask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/spinner_newtask_priority"
+        android:layout_below="@id/button_newtask_pickdate"
         android:layout_centerHorizontal="true"
         android:src="@android:drawable/ic_menu_save"/>
+
+
 
 
 </RelativeLayout>

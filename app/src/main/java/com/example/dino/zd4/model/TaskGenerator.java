@@ -1,6 +1,10 @@
 package com.example.dino.zd4.model;
 
+import java.time.Year;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Random;
 
@@ -32,9 +36,18 @@ public class TaskGenerator {
             int prioritySelector = generator.nextInt(TaskPriority.values().length);
             TaskPriority priority = TaskPriority.values()[prioritySelector];
 
-            tasks.add(new Task(title, description, priority));
+            GregorianCalendar gc = new GregorianCalendar();
+            int year = randBetween(Calendar.getInstance().get(Calendar.YEAR),Calendar.getInstance().get(Calendar.YEAR) + 1);
+            gc.set(gc.YEAR,year);
+            int dayOfYear = randBetween(1, gc.getActualMaximum(gc.DAY_OF_YEAR));
+            gc.set(gc.DAY_OF_YEAR, dayOfYear);
+
+            tasks.add(new Task(title, description, priority, gc));
         }
 
         return tasks;
+    }
+    public static int randBetween(int start, int end) {
+        return start + (int)Math.round(Math.random() * (end - start));
     }
 }

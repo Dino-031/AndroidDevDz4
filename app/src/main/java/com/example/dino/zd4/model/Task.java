@@ -3,6 +3,8 @@ package com.example.dino.zd4.model;
 import com.example.dino.zd4.R;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * Created by Dino on 11/05/2018.
@@ -17,14 +19,20 @@ public class Task implements Serializable {
     private String Description;
     private boolean isCompleted;
     private TaskPriority Priority;
+    private GregorianCalendar dueDate;
 
 
-    public Task(String title, String description, TaskPriority priority) {
+    public Task(String title, String description, TaskPriority priority, GregorianCalendar duedate) {
         Title = title;
         Description = description;
         Priority = priority;
         isCompleted = false;
+        dueDate = duedate;
         ID=sID++;
+    }
+
+    public GregorianCalendar getDueDate() {
+        return dueDate;
     }
 
     public static int getsID() {
