@@ -5,10 +5,35 @@
     android:id="@+id/root_rl_tasks_view"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <TextView
+        android:id="@+id/textview_tasksview_prikaz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Prikaz:"
+        android:layout_marginTop="20dp"
+        />
+
+    <ToggleButton
+        android:id="@+id/togglebutton_tasksview_prikaz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textOff="@string/togglebutton_tasksview_off_text"
+        android:textOn="@string/togglebutton_tasksview_on_text"
+        android:layout_toRightOf="@id/textview_tasksview_prikaz"
+        android:layout_margin="5dp"/>
+
+    <Spinner
+        android:id="@+id/spinner_tasksview_sortby"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/togglebutton_tasksview_prikaz"
+        android:layout_marginTop="15dp"></Spinner>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_tasks_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@id/togglebutton_tasksview_prikaz">
 
     </android.support.v7.widget.RecyclerView>
 

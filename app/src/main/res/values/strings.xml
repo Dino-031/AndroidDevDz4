@@ -5,6 +5,8 @@
     <string name="textview_select_date_text">Select Date</string>
     <string name="togglebutton_on_state_text">Finished</string>
     <string name="togglebutton_off_state_text">Not finished</string>
+    <string name="togglebutton_tasksview_on_text">Nezavršeni</string>
+    <string name="togglebutton_tasksview_off_text">Svi</string>
 
     <string-array name="priority_array">
         <item>LOW</item>
@@ -12,4 +14,9 @@
         <item>HIGH</item>
     </string-array>
 
+    <string-array name="orderby_array">
+        <item>Don't order</item>
+        <item>High priority first</item>
+        <item>Low priority first</item>
+    </string-array>
 </resources>

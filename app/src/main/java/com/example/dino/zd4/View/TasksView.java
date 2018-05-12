@@ -10,8 +10,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -28,6 +31,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 import static java.util.Calendar.YEAR;
@@ -44,7 +48,15 @@ public class TasksView extends AppCompatActivity {
     @BindView(R.id.fab_tasks_view)
     FloatingActionButton fab;
 
+    @BindView(R.id.togglebutton_tasksview_prikaz)
+    ToggleButton tb_tasksview_prikaz;
+
+    @BindView(R.id.spinner_tasksview_sortby)
+    Spinner sr_tasksview_sortby;
+
     private FakeDatabase fakeDatabase;
+    private FakeDatabase fakeDatabaseCopy;
+    private FakeDatabase fakeDatabaseChanged;
 
     private LayoutInflater layoutInflater;
     private CustomAdapter adapter;
@@ -57,6 +69,8 @@ public class TasksView extends AppCompatActivity {
 
         TaskGenerator taskGenerator = new TaskGenerator();
         fakeDatabase = new FakeDatabase();
+        fakeDatabaseCopy = new FakeDatabase();
+        fakeDatabaseChanged = new FakeDatabase();
         fakeDatabase.save(taskGenerator.generate(10));
 
         layoutInflater= getLayoutInflater();
@@ -64,6 +78,134 @@ public class TasksView extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new CustomAdapter();
         recyclerView.setAdapter(adapter);
+        
+        InitOrderingSpinner();
+
+
+    }
+
+    private void InitOrderingSpinner() {
+        final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.orderby_array, R.layout.support_simple_spinner_dropdown_item);
+        sr_tasksview_sortby.setAdapter(adapter);
+        sr_tasksview_sortby.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long ID) {
+                if(position == 1)
+                {
+                    int count = 0;
+                    CopyDatabase(fakeDatabase,fakeDatabaseCopy);
+                    fakeDatabaseChanged.deleteAll();
+
+
+                    count= fakeDatabaseCopy.count();
+                    for(int i = 0; i < count; i++)
+                    {
+                        if(fakeDatabaseCopy.get(i).getPriority() == R.color.taskpriority_high)
+                        {
+                            fakeDatabaseChanged.save(fakeDatabaseCopy.get(i));
+                            fakeDatabaseCopy.delete(fakeDatabaseCopy.get(i));
+                            i--;
+                            count= fakeDatabaseCopy.count();
+                        }
+                    }
+                    count= fakeDatabaseCopy.count();
+                    for(int i = 0; i < count; i++)
+                    {
+                        if(fakeDatabaseCopy.get(i).getPriority() == R.color.taskpriority_medium)
+                        {
+                            fakeDatabaseChanged.save(fakeDatabaseCopy.get(i));
+                            fakeDatabaseCopy.delete(fakeDatabaseCopy.get(i));
+                            i--;
+                            count= fakeDatabaseCopy.count();
+                        }
+                    }
+                    for(int i = 0; i < fakeDatabaseCopy.count(); i++)
+                    {
+                        fakeDatabaseChanged.save(fakeDatabaseCopy.get(i));
+                        fakeDatabaseCopy.delete(fakeDatabaseCopy.get(i));
+                    }
+
+                    CopyDatabase(fakeDatabaseChanged,fakeDatabase);
+                    adapter.notifyDataSetChanged();
+
+                }
+                else if(position == 2)
+                {
+                    int count = 0;
+                    CopyDatabase(fakeDatabase,fakeDatabaseCopy);
+                    fakeDatabaseChanged.deleteAll();
+
+
+                    count= fakeDatabaseCopy.count();
+                    for(int i = 0; i < count; i++)
+                    {
+                        if(fakeDatabaseCopy.get(i).getPriority() == R.color.taskpriority_low)
+                        {
+                            fakeDatabaseChanged.save(fakeDatabaseCopy.get(i));
+                            fakeDatabaseCopy.delete(fakeDatabaseCopy.get(i));
+                            i--;
+                            count= fakeDatabaseCopy.count();
+                        }
+                    }
+                    count= fakeDatabaseCopy.count();
+                    for(int i = 0; i < count; i++)
+                    {
+                        if(fakeDatabaseCopy.get(i).getPriority() == R.color.taskpriority_medium)
+                        {
+                            fakeDatabaseChanged.save(fakeDatabaseCopy.get(i));
+                            fakeDatabaseCopy.delete(fakeDatabaseCopy.get(i));
+                            i--;
+                            count= fakeDatabaseCopy.count();
+                        }
+                    }
+                    for(int i = 0; i < fakeDatabaseCopy.count(); i++)
+                    {
+                        fakeDatabaseChanged.save(fakeDatabaseCopy.get(i));
+                        fakeDatabaseCopy.delete(fakeDatabaseCopy.get(i));
+                    }
+
+                    CopyDatabase(fakeDatabaseChanged,fakeDatabase);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
+    @OnCheckedChanged(R.id.togglebutton_tasksview_prikaz)
+    public void tbPrikazStateChanged()
+    {
+        CopyDatabase(fakeDatabase,fakeDatabaseCopy);
+        fakeDatabaseChanged.deleteAll();
+
+        if(tb_tasksview_prikaz.isChecked())
+        {
+            for(int i = 0; i < fakeDatabase.count(); i++)
+            {
+                if(!fakeDatabase.get(i).isCompleted())
+                    fakeDatabaseChanged.save(fakeDatabase.get(i));
+            }
+            CopyDatabase(fakeDatabaseChanged,fakeDatabase);
+            adapter.notifyDataSetChanged();
+        }
+        else
+        {
+            CopyDatabase(fakeDatabaseCopy,fakeDatabase);
+            adapter.notifyDataSetChanged();
+        }
+
+    }
+
+
+    private void CopyDatabase(FakeDatabase copyFrom, FakeDatabase copyTo)
+    {
+        copyTo.deleteAll();
+        for(int i=0; i< copyFrom.count(); i++)
+            copyTo.save(copyFrom.get(i));
     }
 
     @OnClick(R.id.fab_tasks_view)
@@ -82,7 +224,7 @@ public class TasksView extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
             }
             else {
-
+                    Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -102,9 +244,14 @@ public class TasksView extends AppCompatActivity {
             holder.taskTitle.setText(currentTask.getTitle());
             holder.taskDescription.setText(currentTask.getDescription());
             holder.taskPriority.setBackgroundResource(currentTask.getPriority());
-            GregorianCalendar gc = currentTask.getDueDate();
 
+            GregorianCalendar gc = currentTask.getDueDate();
             holder.taskDueDate.setText("Due date: " + gc.get(Calendar.DAY_OF_MONTH) + "/" + gc.get(Calendar.MONTH) + "/" +gc.get(YEAR) );
+
+            if(currentTask.isCompleted())
+                holder.taskStatus.setChecked(true);
+            else
+                holder.taskStatus.setChecked(false);
         }
 
         @Override

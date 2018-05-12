@@ -34,4 +34,8 @@ public class FakeDatabase {
     public Task get(int position){
         return Tasks.get(position);
     }
+    public void deleteAll()
+    {
+        Tasks.clear();
+    }
 }
